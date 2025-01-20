@@ -1,0 +1,82 @@
+//Brute Force
+class Solution {
+public:
+    int getPosition(vector<int>& inorder, int inStart , int inEnd , int data){
+           for(int i = inStart ; i <= inEnd ; i++){
+                if(inorder[i] == data){
+                    return i;
+                }
+           }
+
+           return 0;
+    }
+    TreeNode * solve(vector<int>& inorder, vector<int>& postorder , int & postIndex , int inStart , int inEnd){
+         if(postIndex < 0 || inStart > inEnd){
+             return NULL;
+         }
+
+         int data = postorder[postIndex];
+         postIndex--; 
+
+         TreeNode * root = new TreeNode(data);
+
+         int pos = getPosition(inorder , inStart , inEnd , data);
+
+         root -> right = solve(inorder , postorder , postIndex , pos + 1 , inEnd);
+
+         root -> left =  solve(inorder , postorder , postIndex , inStart , pos - 1);
+
+         return root;
+    }
+
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int postIndex = postorder.size() - 1;
+
+        int inStart = 0;
+        int inEnd = inorder.size() - 1;
+
+        TreeNode * root = solve(inorder , postorder , postIndex , inStart , inEnd);
+
+        return root;
+    }
+};
+
+//Using Map
+class Solution {
+public:
+    TreeNode * solve(vector<int>& inorder, vector<int>& postorder , int & postIndex , int inStart , int inEnd,  unordered_map<int , int> &mp){
+         if(postIndex < 0 || inStart > inEnd){
+             return NULL;
+         }
+
+         int data = postorder[postIndex];
+         postIndex--; 
+
+         TreeNode * root = new TreeNode(data);
+
+         int pos = mp[data];
+
+         root -> right = solve(inorder , postorder , postIndex , pos + 1 , inEnd , mp);
+
+         root -> left =  solve(inorder , postorder , postIndex , inStart , pos - 1 , mp);
+
+         return root;
+    }
+
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int postIndex = postorder.size() - 1;
+
+        int inStart = 0;
+        int inEnd = inorder.size() - 1;
+
+        unordered_map<int , int> mp;
+
+        for(int i = 0; i < inorder.size() ; i++){
+            mp[inorder[i]] = i;
+        }
+
+        TreeNode * root = solve(inorder , postorder , postIndex , inStart , inEnd , mp);
+
+        return root;
+    }
+};
