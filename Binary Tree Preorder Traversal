@@ -1,3 +1,4 @@
+//Using Recurssion
 class Solution {
 public:
     void solve(TreeNode * root , vector<int> &ans){
@@ -17,5 +18,39 @@ public:
         solve(root , ans);
 
         return ans;
+    }
+};
+
+//Iterative Approach using stack
+class Solution {
+public:
+    
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> preorder;
+
+        if(root == NULL){
+            return preorder;
+        }
+
+        stack<TreeNode *> st;
+        
+        st.push(root);
+
+        while(!st.empty()){
+            TreeNode * top = st.top();
+            st.pop();
+
+            preorder.push_back(top -> val);
+
+            if(top -> right != NULL){
+                st.push(top -> right);
+            }
+
+            if(top -> left != NULL){
+                st.push(top -> left);
+            }
+        }
+        
+        return preorder;
     }
 };
