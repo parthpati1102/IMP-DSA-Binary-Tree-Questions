@@ -1,3 +1,4 @@
+//Using Recurssion
 class Solution {
 public: 
     void solve(TreeNode * root , vector<int> &ans){
@@ -14,6 +15,48 @@ public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> ans;
         solve(root , ans);
+
+        return ans;
+    }
+};
+
+//Iterative approach using Two Stacks
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+
+        if(root == NULL){
+            return {};
+        }
+        
+        stack<TreeNode*> st1;
+        stack<TreeNode*> st2;
+
+        st1.push(root);
+
+        while(!st1.empty()){
+            TreeNode * top = st1.top();
+            st1.pop();
+
+            st2.push(top);
+
+            if(top -> left != NULL){
+                st1.push(top -> left);
+            }
+
+            if(top -> right != NULL){
+                st1.push(top -> right);
+            }
+        }
+
+        vector<int> ans;
+
+        while(!st2.empty()){
+            TreeNode * top = st2.top();
+            st2.pop();
+
+            ans.push_back(top -> val);
+        }
 
         return ans;
     }
