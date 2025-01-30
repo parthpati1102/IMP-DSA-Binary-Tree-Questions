@@ -1,0 +1,48 @@
+//Ootimal Approach Time Complexity is O(n) and Space Complexity O(1)
+class Solution {
+public:
+  
+    void flatten(TreeNode* root) {
+       TreeNode * curr = root;
+
+       while(curr != NULL){
+          
+          if(curr -> left != NULL){
+            TreeNode * prev = curr -> left;
+
+            while(prev -> right != NULL){
+                prev = prev -> right;
+            }
+
+            prev -> right = curr -> right;
+            curr -> right = curr -> left;
+            curr -> left = NULL;
+          }
+
+          curr = curr -> right;
+       }
+    }
+};
+
+//Time Complexity is O(n) and Space Complexity O(n)
+class Solution {
+public:
+   void solve(TreeNode* &root , TreeNode* &prev){
+        if(root == NULL){
+            return;
+        }
+
+        solve(root -> right , prev);
+        solve(root -> left , prev);
+
+        root -> right = prev;
+        root -> left = NULL;
+
+        prev = root;
+   }
+    void flatten(TreeNode* root) {
+        TreeNode * prev = NULL;
+        solve(root , prev);
+    }
+};
+
