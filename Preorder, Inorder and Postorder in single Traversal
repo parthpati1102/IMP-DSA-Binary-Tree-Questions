@@ -1,0 +1,63 @@
+//Using a stack
+//Algorithm :-
+//if num == 1
+//push in a preorder array
+//num++
+//then if there is left node of that root put it into  the stack
+
+//if num == 2
+//push in a ineorder array
+//num++
+//then if there is right node of that root put it into  the stack
+
+//if num == 3
+//push in a postorder array
+
+
+vector<vector<int>> getTreeTraversal(TreeNode *root){
+    // Write your code here.
+     if(root == NULL){
+        return {};
+    }
+
+    vector<vector<int>> traversal(3);
+
+    stack<pair<TreeNode * , int>> st;
+
+    st.push({root , 1});
+
+    while(!st.empty()){
+        //Preorder
+        auto pr = st.top();
+        st.pop();
+        
+        if(pr.second == 1){
+            traversal[1].push_back(pr.first -> data);
+            pr.second++;
+            st.push(pr);
+
+            if(pr.first -> left != NULL){
+                st.push({pr.first -> left , 1});
+            }
+        }
+
+        //Inorder
+        else if(pr.second == 2){
+            traversal[0].push_back(pr.first -> data);
+            pr.second++;
+            st.push(pr);
+
+            if(pr.first -> right != NULL){
+                st.push({pr.first -> right , 1});
+            }
+        }
+         
+         //PostOrder
+        else{
+            traversal[2].push_back(pr.first -> data);
+        }
+
+    }
+
+    return traversal;
+}
