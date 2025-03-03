@@ -1,0 +1,55 @@
+//for left Node (2 * i + 1) and for Right Node (2 * i + 2 )
+
+//and we consider the root node index 0
+
+//Must Handle the Memory overflow that can take place in case of a Sces Tree by finding the minimum and then converting its children node to 0 , 1 , 2 , 3 , 4 , ans so on....
+
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if(root == NULL){
+            return 0;
+        }
+
+        queue<pair<TreeNode* , int>> qu;
+
+        long long ans = 0;
+
+        qu.push({root , 0});
+
+        while(!qu.empty()){
+            long long size = qu.size();
+            long long mini = qu.front().second;
+            long long first  , last;
+ 
+            for(int i = 0 ; i < size ; i++){
+                auto front = qu.front();
+                qu.pop();
+
+                long long curr_id = front.second - mini;
+
+
+                if(i == 0){
+                    first = curr_id;
+                }
+
+                if(i == size - 1){
+                    last = curr_id;
+                }
+
+                if(front.first -> left != NULL){
+                     qu.push({front.first -> left , (long long)2 * curr_id + 1});
+                }
+
+                if(front.first -> right != NULL){
+                    qu.push({front.first -> right , (long long)2 * curr_id + 2});
+                }
+
+            }
+
+            ans = max(ans , last - first + 1);
+        }
+
+        return (int) ans;
+    }
+};
