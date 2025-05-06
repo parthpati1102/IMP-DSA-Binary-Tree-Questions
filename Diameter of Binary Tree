@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int solve(TreeNode * root , int &diameter){
+        if(root == NULL){
+            return 0;
+        }
+
+        int leftHeight = solve(root -> left , diameter);
+        int rightHeight = solve(root -> right , diameter);
+         
+        int ans = leftHeight + rightHeight;
+
+        diameter = max(ans , diameter);
+
+        int height = max(leftHeight , rightHeight) + 1;
+
+        return height;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        int diameter = 0;
+        solve(root , diameter);
+
+        return diameter;    
+    }
+};
