@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    vector<vector<int>> levelOrder(Node *root) {
+        // Your code here
+        vector<vector<int>> ans;
+        
+        queue<Node*> qu;
+        
+        qu.push(root);
+        qu.push(NULL);
+        
+        while(!qu.empty()){
+            
+            int n = qu.size();
+            
+            vector<int> vec;
+            
+            for(int i = 0 ; i < n - 1; i++){
+                auto top = qu.front();
+                qu.pop();
+                
+                vec.push_back(top -> data);
+                
+                if(top -> left != NULL){
+                    qu.push(top -> left);
+                }
+                
+                if(top -> right != NULL){
+                    qu.push(top -> right);
+                }
+            } 
+            
+            ans.push_back(vec);
+            qu.pop();
+        
+            if(qu.size() > 0){
+               qu.push(NULL);
+            }
+        }
+        
+        return ans;
+    }
+};
