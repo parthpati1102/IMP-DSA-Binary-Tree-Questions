@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool solve(TreeNode * root , int targetSum){
+        if(root == NULL){
+            return false;
+        }
+
+        if(root -> right == NULL && root -> left == NULL){
+            if(targetSum  - root -> val == 0){
+                return true;
+            }
+
+            else{
+                return false;
+            }
+        } 
+
+        bool option1 = solve(root -> left , targetSum - (root -> val));
+        bool option2 = solve(root -> right , targetSum - (root -> val));
+
+        return option1 || option2;
+    }
+   
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        bool ans = solve(root , targetSum);
+
+        return ans;
+    }
+};
