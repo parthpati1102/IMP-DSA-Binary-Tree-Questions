@@ -28,6 +28,7 @@ public:
                 //Now we Do creation of Thread
                 if(IP -> right == NULL){
                     IP -> right = curr;
+                    //This is the only change we do in This 
                     preOrder.push_back(curr -> val);
                     curr = curr -> left;
                 }
