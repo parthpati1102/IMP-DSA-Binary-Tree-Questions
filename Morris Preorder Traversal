@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root == NULL){
+            return {};
+        }
+        
+        TreeNode * curr = root;
+        vector<int> preOrder;
+
+        while(curr != NULL){
+            
+            if(curr -> left == NULL){
+                preOrder.push_back(curr -> val);
+                curr = curr -> right;
+            }
+
+            else{
+                //Find Inorder Predecessor
+
+                TreeNode * IP = curr -> left;
+
+                while(IP -> right != NULL && IP -> right != curr){
+                    IP = IP -> right;
+                }
+
+                //Now We have Inorder Predecesson
+                //Now we Do creation of Thread
+                if(IP -> right == NULL){
+                    IP -> right = curr;
+                    preOrder.push_back(curr -> val);
+                    curr = curr -> left;
+                }
+                
+                //Here we do deletion of Thread
+                else{
+                    IP -> right = NULL;
+                    curr = curr -> right;
+                }
+            }
+        }
+        
+        return preOrder;
+    }
+};
