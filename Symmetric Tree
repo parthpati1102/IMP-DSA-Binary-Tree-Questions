@@ -1,0 +1,34 @@
+class Solution {
+public:
+    bool solve(TreeNode * root1 , TreeNode * root2){
+        if(root1 == NULL && root2 == NULL){
+            return true;
+        }
+
+        if(root1 == NULL){
+            return false;
+        }
+
+        if(root2 == NULL){
+            return false;
+        }
+
+        if(root1 -> val != root2 -> val){
+            return false;
+        }
+
+        int option1 = solve(root1 -> left , root2 -> right);
+        int option2 = solve(root1 -> right , root2 -> left);
+
+        return option1 && option2;
+    }
+    bool isSymmetric(TreeNode* root) {
+        
+        TreeNode * root1 = root -> left;
+        TreeNode * root2 = root -> right;
+
+        bool ans = solve(root1 , root2);
+        
+        return ans;
+    }
+};
